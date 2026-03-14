@@ -30,7 +30,7 @@ echo "Getting dependencies..."
 flutter pub get
 
 echo "Building for web (release)..."
-flutter build web --release --web-renderer html --dart-define=FLUTTER_WEB_USE_SKIA=false
+flutter build web --release --base-href "/" --web-renderer html --dart-define=FLUTTER_WEB_USE_SKIA=false
 
 echo "Build complete! Output in build/web/"
 ls -la build/web/
