@@ -46,3 +46,6 @@ app.*.map.json
 *.g.dart
 !lib/models/*.g.dart
 *.freezed.dart
+
+# Netlify
+.netlify/

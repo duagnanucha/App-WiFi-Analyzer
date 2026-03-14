@@ -12,13 +12,8 @@ import 'providers/speed_test_provider.dart';
 import 'providers/wifi_provider.dart';
 import 'services/ad_service.dart';
 import 'services/export_service.dart';
-import 'services/lan_scan_service.dart';
-import 'services/network_info_service.dart';
-import 'services/permission_service.dart';
-import 'services/ping_service.dart';
-import 'services/speed_test_service.dart';
+import 'services/service_factory.dart';
 import 'services/storage_service.dart';
-import 'services/wifi_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -27,24 +22,24 @@ void main() async {
   final storageService = StorageService();
   await storageService.initialize();
 
-  // Initialize services
+  // Create platform-appropriate services
   final adService = AdService();
-  final permissionService = PermissionService();
-  final wifiService = WifiService();
-  final networkInfoService = NetworkInfoService();
-  final lanScanService = LanScanService();
-  final speedTestService = SpeedTestService();
-  final pingService = PingService();
+  final permissionService = ServiceFactory.createPermissionService();
+  final wifiService = ServiceFactory.createWifiService();
+  final networkInfoService = ServiceFactory.createNetworkInfoService();
+  final lanScanService = ServiceFactory.createLanScanService();
+  final speedTestService = ServiceFactory.createSpeedTestService();
+  final pingService = ServiceFactory.createPingService();
   final exportService = ExportService();
 
-  // Initialize ads
+  // Initialize ads (no-op on web)
   await adService.initialize();
   await adService.loadInterstitial();
 
   runApp(
     MultiProvider(
       providers: [
-        // Services (available for direct injection)
+        // Services
         Provider<AdService>.value(value: adService),
         Provider<StorageService>.value(value: storageService),
 

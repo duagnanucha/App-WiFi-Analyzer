@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 
 import '../dashboard/dashboard_screen.dart';
@@ -48,9 +49,30 @@ class _HomeShellState extends State<HomeShell> {
           ),
         ],
       ),
-      body: IndexedStack(
-        index: _currentIndex,
-        children: _screens,
+      body: Column(
+        children: [
+          if (kIsWeb)
+            MaterialBanner(
+              content: const Text(
+                'Web Demo Mode — Showing simulated data. '
+                'Install on Android for real WiFi scanning.',
+              ),
+              leading: const Icon(Icons.info_outline),
+              actions: [
+                TextButton(
+                  onPressed: () {},
+                  child: const Text('OK'),
+                ),
+              ],
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+            ),
+          Expanded(
+            child: IndexedStack(
+              index: _currentIndex,
+              children: _screens,
+            ),
+          ),
+        ],
       ),
       bottomNavigationBar: NavigationBar(
         selectedIndex: _currentIndex,
