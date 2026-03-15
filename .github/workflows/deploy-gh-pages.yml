@@ -27,14 +27,22 @@ jobs:
           channel: 'stable'
           cache: true
 
+      - name: Flutter doctor
+        run: flutter doctor -v
+
       - name: Get dependencies
         run: flutter pub get
 
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+
       - name: Build web
         run: |
-          # Extract repo name for base href
           REPO_NAME=$(echo "${{ github.repository }}" | cut -d'/' -f2)
-          flutter build web --release --base-href "/$REPO_NAME/"
+          echo "Building with base-href: /$REPO_NAME/"
+          flutter build web --release --base-href "/$REPO_NAME/" 2>&1
+          echo "Build output:"
+          ls -la build/web/
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
